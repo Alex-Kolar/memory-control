@@ -2,8 +2,8 @@ from zhinst.toolkit import Session
 from zhinst.toolkit import Waveforms
 import numpy as np
 
-from afc_prep_offset import full_waveform
-from afc_prep_parallel import full_waveform_parallel
+from afc_prep import full_waveform
+from afc_prep import full_waveform_noshift
 
 
 if __name__ == '__main__':
@@ -35,7 +35,7 @@ if __name__ == '__main__':
         wav = A * amp * np.sin(2 * np.pi * f_0 * t + theta)
     else:
         t, theta, amp = (
-            full_waveform_parallel(N, delta, beta, delta_f, num_points, resolution))
+            full_waveform_noshift(N, delta, num_points, resolution, beta, f_light, delta_f))
         wav = A * amp * np.cos(2 * np.pi * f_0 * t + theta)
     print(f"len: {len(wav)}")
 
