@@ -34,7 +34,7 @@ if __name__ == '__main__':
         full_waveform(N, delta, num_points, resolution, beta, f_light, delta_f))
     # wav = A * amp * np.sin(2 * np.pi * f_0 * t + theta)
     coeff = (1 / range) * amp
-    wav = (A * theta) + coeff * np.sin(2 * np.pi * f_0 * t)
+    wav = (A * theta) + coeff * np.sin(2 * np.pi * f_0 * t)  # V(t)
     print(f"len: {len(wav)}")
 
     # # TODO: delete
