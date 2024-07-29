@@ -11,13 +11,13 @@ if __name__ == '__main__':
     DEVICE_ID = 'DEV8345'
     SERVER_HOST = 'localhost'
     samp_rate = 2.4e9  # unit: Hz
-    range = 5  # unit: V
+    volt_range = 5  # unit: V
 
     # EOM params
-    Vpi = 3  # unit: V
+    Vpi = 4.25  # unit: V
 
     # waveform params
-    A = Vpi / (range * np.pi)  # overall amplitude of pulse (after normalization)
+    A = Vpi / (volt_range * np.pi)  # overall amplitude of pulse (after normalization)
     N = 1
     delta = 1e6  # unit: Hz
     tau = 2e-3  # unit: s
@@ -33,7 +33,7 @@ if __name__ == '__main__':
     t, theta, amp = (
         full_waveform(N, delta, num_points, resolution, beta, f_light, delta_f))
     # wav = A * amp * np.sin(2 * np.pi * f_0 * t + theta)
-    coeff = (1 / range) * amp
+    coeff = (1 / volt_range) * amp
     wav = (A * theta) + coeff * np.sin(2 * np.pi * f_0 * t)  # V(t)
     print(f"len: {len(wav)}")
 
