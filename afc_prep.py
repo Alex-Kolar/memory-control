@@ -20,7 +20,7 @@ def full_waveform(N, delta, num_points, resolution, beta, f_0, delta_f):
     teeth = []
     for i in range(N):
         # (freq_offset, center time) of each tooth
-        teeth.append((i*delta, i*tau/N))
+        teeth.append((i*delta - ((N-1)*delta/2), i*tau/N))
     times = np.arange(0, num_points*resolution, resolution)
 
     # c1_total = np.zeros_like(times)
@@ -88,13 +88,18 @@ if __name__ == '__main__':
     test_t, test_theta, test_amp = full_waveform(N, delta, num_points, resolution, tau, f_light, delta_f)
 
     plt.figure(figsize=(20, 6))
+
     plt.subplot(131)
     plt.plot(test_t, np.sin(test_theta))
+    plt.grid(True)
+
     plt.subplot(132)
     plt.plot(test_t, test_theta)
+    plt.grid(True)
+
     plt.subplot(133)
     plt.plot(test_t, test_amp)
-
     plt.grid(True)
+
     plt.tight_layout()
     plt.show()
