@@ -11,10 +11,10 @@ if __name__ == '__main__':
     DEVICE_ID = 'DEV8345'
     SERVER_HOST = 'localhost'
     samp_rate = 2.4e9  # unit: Hz
-    volt_range = 5  # unit: V
+    volt_range = 5.0  # unit: V
 
     # EOM params
-    Vpi = 4.25  # unit: V
+    Vpi = 3.9  # unit: V
 
     # waveform params
     A = Vpi / (volt_range * np.pi)  # overall amplitude of pulse (after normalization)
@@ -32,13 +32,11 @@ if __name__ == '__main__':
 
     t, theta, amp = (
         full_waveform(N, delta, num_points, resolution, beta, f_light, delta_f))
-    # wav = A * amp * np.sin(2 * np.pi * f_0 * t + theta)
-    coeff = (1 / volt_range) * amp
-    wav = (A * theta) + coeff * np.sin(2 * np.pi * f_0 * t)  # V(t)
+    # t, theta, amp = (
+    #     full_waveform_noshift(N, delta, num_points, resolution, beta, 0, delta_f))
+    coeff = amp / (volt_range * np.max(amp))
+    wav = coeff * np.sin(2*np.pi*f_0*t + theta)  # V(t)
     print(f"len: {len(wav)}")
-
-    # # TODO: delete
-    # wav = np.sin(2*np.pi*100e6*t + theta + coeff * np.sin(2 * np.pi * f_0 * t))
 
     # connect to device
     session = Session(SERVER_HOST)
