@@ -23,6 +23,10 @@ if __name__ == '__main__':
     df = pd.read_csv(DATA_PATH)
     p0 = eom_calibration(DATA_PATH)
 
+    omega = p0[1]
+    v_pi = np.pi / omega
+    print("V_pi:", v_pi)
+
     plt.figure()
     plt.scatter(df['volts'], df['power (mW)'],
                 label='Data')
