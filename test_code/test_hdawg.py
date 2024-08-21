@@ -13,7 +13,7 @@ device = session.connect_device(device_id)
 
 ##Generate a waveform and marker
 LENGTH = 1024
-wave = np.sin(np.linspace(0, 10*np.pi, LENGTH))*np.exp(np.linspace(0, -5, LENGTH))
+wave = np.sin(np.linspace(0, 10*np.pi, LENGTH))
 marker = np.concatenate([np.ones(32), np.zeros(LENGTH-32)]).astype(int)
 
 ## Upload waveforms
