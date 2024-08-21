@@ -60,16 +60,16 @@ def full_waveform(N, delta, num_points, resolution, beta, f_0, delta_f):
 def full_waveform_noshift(N, delta, num_points, resolution, beta, f_0, delta_f):
     tau = num_points * resolution
     times = np.arange(-tau / 2, tau / 2, resolution)
-    theta = np.pi * delta_f / beta * np.log(np.cosh(beta * times))
+    theta = (np.pi * delta_f / beta) * np.log(np.cosh(beta * times))
+
     temp1 = np.sin(N * np.pi * delta * times)
     temp2 = np.sin(np.pi * delta * times)
-
     for i, val in enumerate(temp2):
         if val == 0:
             temp1[i] = N
             temp2[i] = 1
 
-    amp = temp1 / np.cosh(beta * times) / temp2
+    amp = (temp1 / temp2) / np.cosh(beta * times)
 
     return times, theta, amp
 
