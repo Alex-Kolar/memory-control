@@ -2,7 +2,29 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def single_tooth(t, d, freq_offset, beta, f_0, w):
+def single_tooth(t, freq, delta_f, beta):
+    """Single tooth of width delta_f at frequency freq."""
+    term1 = 2 * np.pi * freq * t
+    term2 = 2 * np.pi * (delta_f / (2 * beta)) * np.log(np.cosh(beta * t))
+    return np.sin(term1 + term2) / np.cosh(beta * t)
+
+
+def sum_waveform(N, delta, num_points, resolution, beta, f_0, delta_f):
+    tau = num_points * resolution
+    times = np.arange(-tau/2, tau/2, resolution)
+
+    start = -(N/2) + (1/2)
+    stop = (N/2) + (1/2)
+    waveform_total = np.zeros_like(num_points)
+    for n in range(start, stop, 1):
+        # permute the time
+        times = times
+
+        # calculate offset
+        frequency = n * delta + f_0
+
+
+def full_single_tooth(t, d, freq_offset, beta, f_0, w):
     temp1 = (np.cos(2*np.pi*(f_0+freq_offset)*d)*np.cos(np.pi*w/beta*np.log(np.cosh(beta*(t-d))))
              + np.sin(2*np.pi*(f_0+freq_offset)*d)*np.sin(np.pi*w/beta*np.log(np.cosh(beta*(t-d)))))
     temp2 = (-np.sin(2*np.pi*(f_0+freq_offset)*d)*np.cos(np.pi*w/beta*np.log(np.cosh(beta*(t-d))))
@@ -29,9 +51,9 @@ def full_waveform(N, delta, num_points, resolution, beta, f_0, delta_f):
     c2s = []
     for (freq_offset, d) in teeth:
         offset = d + tau*np.floor((np.abs(times - d) / (tau/2))) * np.sign(times - d)
-        (c1, c2) = single_tooth(times,
-                                offset,
-                                freq_offset, beta, f_0, delta_f)
+        (c1, c2) = full_single_tooth(times,
+                                     offset,
+                                     freq_offset, beta, f_0, delta_f)
         # (c1,c2) = (1,0)
         # if t-d > tau/2:
         #     (c1,c2) = single_tooth(t,d+tau,freq_offset,beta,f_0,w)
